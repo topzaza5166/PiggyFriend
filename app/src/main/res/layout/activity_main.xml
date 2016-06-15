@@ -23,12 +23,12 @@
             android:textSize="30dp" />
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
             android:layout_marginTop="40dp"
             android:scaleType="fitXY"
             android:layout_gravity="center"
-            android:src="@drawable/background" />
+            android:src="@drawable/bg_line" />
 
         <LinearLayout
             android:layout_gravity="center"
@@ -50,14 +50,21 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="125.00"
+                android:text="0.00"
                 android:textColor="#fff"
                 android:textSize="80dp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Connect" />
 
 </RelativeLayout>
