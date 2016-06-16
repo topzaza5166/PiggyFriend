@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.StringTokenizer;
+
 import app.akexorcist.bluetoothspp.BluetoothSPP;
 import app.akexorcist.bluetoothspp.BluetoothState;
 import app.akexorcist.bluetoothspp.DeviceList;
@@ -114,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAnimationMoney(String money){
         ValueAnimator animator = new ValueAnimator();
-        String[] splitmoney = money.split(".");
-        money = splitmoney[0];
+        StringTokenizer splitmoney = new StringTokenizer(money, ".");
+        money = splitmoney.nextToken();
         if(money_old == 0){
-            animator.setObjectValues(0, Float.parseFloat(money));
+            animator.setFloatValues(0, Float.parseFloat(money));
             money_old = Float.parseFloat(money);
         } else{
-            animator.setObjectValues(money_old, Float.parseFloat(money));
+            animator.setFloatValues(money_old, Float.parseFloat(money));
             money_old = Float.parseFloat(money);
         }
         animator.setDuration(4000);
@@ -132,8 +134,11 @@ public class MainActivity extends AppCompatActivity {
         animator.start();
     }
     private void showAnimationMoney_test(){
+        String money_test = "600.00";
+        StringTokenizer splitmoney = new StringTokenizer(money_test, ".");
+        money_test = splitmoney.nextToken();
         ValueAnimator animator = new ValueAnimator();
-        animator.setFloatValues(0, 600);
+        animator.setFloatValues(0, Float.parseFloat(money_test));
         animator.setDuration(5000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
