@@ -1,5 +1,6 @@
 package com.example.topza.piggyfriend;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 1;
 
+    private static float money_old = 0;
     BluetoothSPP bt = new BluetoothSPP(this);
 
     @Override
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                ((TextView)findViewById(R.id.TextMoney)).setText(message);
+                showAnimationMoney(message);
             }
         });
 
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+//        showAnimationMoney_test();
         if(!bt.isBluetoothEnabled()) {
             Intent intent = new Intent(getApplicationContext(), DeviceList.class);
             startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
@@ -107,5 +110,36 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    private void showAnimationMoney(String money){
+        ValueAnimator animator = new ValueAnimator();
+        String[] splitmoney = money.split(".");
+        money = splitmoney[0];
+        if(money_old == 0){
+            animator.setObjectValues(0, Float.parseFloat(money));
+            money_old = Float.parseFloat(money);
+        } else{
+            animator.setObjectValues(money_old, Float.parseFloat(money));
+            money_old = Float.parseFloat(money);
+        }
+        animator.setDuration(4000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
+            }
+        });
+        animator.start();
+    }
+    private void showAnimationMoney_test(){
+        ValueAnimator animator = new ValueAnimator();
+        animator.setFloatValues(0, 600);
+        animator.setDuration(5000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
+            }
+        });
+        animator.start();
     }
 }
