@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 showAnimationMoney(message);
             }
         });
@@ -55,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
             public void onDeviceConnectionFailed() {
                 Toast.makeText(getApplicationContext(), "Unable to connect"
                         , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        bt.setAutoConnectionListener(new BluetoothSPP.AutoConnectionListener() {
+            public void onNewConnection(String name, String address) {
+                Log.i("Check", "New Connection - " + name + " - " + address);
+            }
+
+            public void onAutoConnectionStarted() {
+                Log.i("Check", "Auto connection started");
             }
         });
 
@@ -82,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             if(!bt.isServiceAvailable()) {
                 bt.setupService();
                 bt.startService(BluetoothState.DEVICE_ANDROID);
-                setup();
             }
         }
     }
@@ -125,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             animator.setFloatValues(money_old, Float.parseFloat(money));
             money_old = Float.parseFloat(money);
         }
-        animator.setDuration(4000);
+        animator.setDuration(1000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
