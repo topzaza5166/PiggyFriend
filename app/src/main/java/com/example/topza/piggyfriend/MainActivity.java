@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
 
     private static float money_old = 0;
+    private static int coin = 1;
     BluetoothSPP bt = new BluetoothSPP(this);
 
     @Override
@@ -130,12 +134,23 @@ public class MainActivity extends AppCompatActivity {
         money = splitmoney.nextToken();
         if(money_old == 0){
             animator.setFloatValues(0, Float.parseFloat(money));
-            money_old = Float.parseFloat(money);
         } else{
             animator.setFloatValues(money_old, Float.parseFloat(money));
-            money_old = Float.parseFloat(money);
         }
-        animator.setDuration(1000);
+        coin = Integer.parseInt(money) - (int)Math.abs(money_old);
+        money_old = Float.parseFloat(money);
+//        Toast.makeText(getApplicationContext(), String.valueOf((int)Math.abs(money_old)), Toast.LENGTH_SHORT).show();
+        if(coin == 1){
+            ImageView coin1 = (ImageView) findViewById(R.id.coin1);
+            coinAnimation(coin1);
+        } else if(coin == 5){
+            ImageView coin5 = (ImageView) findViewById(R.id.coin5);
+            coinAnimation(coin5);
+        } else if(coin == 10){
+            ImageView coin10 = (ImageView) findViewById(R.id.coin10);
+            coinAnimation(coin10);
+        }
+        animator.setDuration(3000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
@@ -144,17 +159,46 @@ public class MainActivity extends AppCompatActivity {
         animator.start();
     }
     private void showAnimationMoney_test(){
-        String money_test = "600.00";
+        String money_test = "5.00";
         StringTokenizer splitmoney = new StringTokenizer(money_test, ".");
         money_test = splitmoney.nextToken();
+
+        coin = Integer.parseInt(money_test) - (int)Math.abs(money_old);
+        if(coin == 1){
+            ImageView coin1 = (ImageView) findViewById(R.id.coin1);
+            coinAnimation(coin1);
+        } else if(coin == 5){
+            ImageView coin5 = (ImageView) findViewById(R.id.coin5);
+            coinAnimation(coin5);
+        } else if(coin == 10){
+            ImageView coin10 = (ImageView) findViewById(R.id.coin10);
+            coinAnimation(coin10);
+        }
+
         ValueAnimator animator = new ValueAnimator();
         animator.setFloatValues(0, Float.parseFloat(money_test));
-        animator.setDuration(5000);
+        animator.setDuration(2000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
             }
         });
         animator.start();
+    }
+
+    private void coinAnimation(final ImageView coin){
+        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 500);
+        animation.setDuration(1000);
+        animation.setFillAfter(false);
+        animation.setAnimationListener(new Animation.AnimationListener(){
+            public void onAnimationEnd(Animation animation) {
+                coin.setVisibility(View.GONE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        coin.setVisibility(View.VISIBLE);
+        coin.startAnimation(animation);
     }
 }
