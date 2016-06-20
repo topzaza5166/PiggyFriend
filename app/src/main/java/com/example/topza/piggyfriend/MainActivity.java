@@ -64,16 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bt.setAutoConnectionListener(new BluetoothSPP.AutoConnectionListener() {
-            public void onNewConnection(String name, String address) {
-                Log.i("Check", "New Connection - " + name + " - " + address);
-            }
-
-            public void onAutoConnectionStarted() {
-                Log.i("Check", "Auto connection started");
-            }
-        });
-
         Button btnConnect = (Button)findViewById(R.id.btnConnect);
         btnConnect.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
