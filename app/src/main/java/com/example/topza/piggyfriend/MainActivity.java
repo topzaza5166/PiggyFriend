@@ -3,6 +3,7 @@ package com.example.topza.piggyfriend;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void coinAnimation(final ImageView coin){
+        MediaPlayer coin_sound = MediaPlayer.create(this, R.raw.coin_drop_sound);
         Animation coinMoveAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
         coinMoveAnimation.setAnimationListener(new Animation.AnimationListener(){
             public void onAnimationEnd(Animation animation) {
@@ -197,5 +199,7 @@ public class MainActivity extends AppCompatActivity {
         });
         coin.setVisibility(View.VISIBLE);
         coin.startAnimation(coinMoveAnimation);
+        coin_sound.setVolume(80, 80);
+        coin_sound.start();
     }
 }
