@@ -187,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void coinAnimation(final ImageView coin){
-        Animation logoMoveAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
-        logoMoveAnimation.setAnimationListener(new Animation.AnimationListener(){
+        Animation coinMoveAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+        coinMoveAnimation.setAnimationListener(new Animation.AnimationListener(){
             public void onAnimationEnd(Animation animation) {
                 coin.setVisibility(View.GONE);
             }
@@ -196,6 +196,6 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationStart(Animation animation) {}
         });
         coin.setVisibility(View.VISIBLE);
-        coin.startAnimation(logoMoveAnimation);
+        coin.startAnimation(coinMoveAnimation);
     }
 }
