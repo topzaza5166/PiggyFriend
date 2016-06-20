@@ -3,12 +3,13 @@ package com.example.topza.piggyfriend;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             ImageView coin10 = (ImageView) findViewById(R.id.coin10);
             coinAnimation(coin10);
         }
-        animator.setDuration(3000);
+        animator.setDuration(1000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         ValueAnimator animator = new ValueAnimator();
         animator.setFloatValues(0, Float.parseFloat(money_test));
-        animator.setDuration(2000);
+        animator.setDuration(1000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
@@ -187,18 +188,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void coinAnimation(final ImageView coin){
-        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 500);
-        animation.setDuration(1000);
-        animation.setFillAfter(false);
-        animation.setAnimationListener(new Animation.AnimationListener(){
+        MediaPlayer coin_sound = MediaPlayer.create(this, R.raw.coin_drop_sound);
+        Animation coinMoveAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+        coinMoveAnimation.setAnimationListener(new Animation.AnimationListener(){
             public void onAnimationEnd(Animation animation) {
                 coin.setVisibility(View.GONE);
             }
             public void onAnimationRepeat(Animation animation) {}
             public void onAnimationStart(Animation animation) {}
         });
-
         coin.setVisibility(View.VISIBLE);
-        coin.startAnimation(animation);
+        coin.startAnimation(coinMoveAnimation);
+        coin_sound.setVolume(80, 80);
+        coin_sound.start();
     }
 }
