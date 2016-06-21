@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!bt.isBluetoothAvailable()) {
             Toast.makeText(getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_SHORT).show();
-//            finish();
+            finish();
         }
 
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
@@ -94,16 +94,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        showAnimationMoney_test();
-//        if(!bt.isBluetoothEnabled()) {
-//            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-//            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-//        } else {
-//            if(!bt.isServiceAvailable()) {
-//                bt.setupService();
-//                bt.startService(BluetoothState.DEVICE_ANDROID);
-//            }
-//        }
+//        showAnimationMoney_test();
+        if(!bt.isBluetoothEnabled()) {
+            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+        } else {
+            if(!bt.isServiceAvailable()) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+            }
+        }
     }
 
     private void setup() {
