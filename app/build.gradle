@@ -38,4 +38,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(path: ':bluetoothSPP')
     compile 'com.android.support:appcompat-v7:24.0.0-beta1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.16'
 }

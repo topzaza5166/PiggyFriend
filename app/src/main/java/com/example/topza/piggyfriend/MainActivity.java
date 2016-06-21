@@ -3,8 +3,10 @@ package com.example.topza.piggyfriend;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import java.util.StringTokenizer;
 import app.akexorcist.bluetoothspp.BluetoothSPP;
 import app.akexorcist.bluetoothspp.BluetoothState;
 import app.akexorcist.bluetoothspp.DeviceList;
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,13 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(!bt.isBluetoothAvailable()) {
             Toast.makeText(getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_SHORT).show();
-            finish();
+//            finish();
         }
 
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
                 //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 showAnimationMoney(message);
+                achievement(message);
             }
         });
 
@@ -90,16 +94,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        showAnimationMoney_test();
-        if(!bt.isBluetoothEnabled()) {
-            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-        } else {
-            if(!bt.isServiceAvailable()) {
-                bt.setupService();
-                bt.startService(BluetoothState.DEVICE_ANDROID);
-            }
-        }
+        showAnimationMoney_test();
+//        if(!bt.isBluetoothEnabled()) {
+//            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+//            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+//        } else {
+//            if(!bt.isServiceAvailable()) {
+//                bt.setupService();
+//                bt.startService(BluetoothState.DEVICE_ANDROID);
+//            }
+//        }
     }
 
     private void setup() {
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         animator.start();
     }
     private void showAnimationMoney_test(){
-        String money_test = "5.00";
+        String money_test = "1000.00";
         StringTokenizer splitmoney = new StringTokenizer(money_test, ".");
         money_test = splitmoney.nextToken();
 
@@ -178,13 +182,14 @@ public class MainActivity extends AppCompatActivity {
 
         ValueAnimator animator = new ValueAnimator();
         animator.setFloatValues(0, Float.parseFloat(money_test));
-        animator.setDuration(1000);
+        animator.setDuration(2000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 ((TextView)findViewById(R.id.TextMoney)).setText(String.format("%.2f",(float) animation.getAnimatedValue()));
             }
         });
         animator.start();
+        achievement(money_test);
     }
 
     private void coinAnimation(final ImageView coin){
@@ -201,5 +206,60 @@ public class MainActivity extends AppCompatActivity {
         coin.startAnimation(coinMoveAnimation);
         coin_sound.setVolume(80, 80);
         coin_sound.start();
+    }
+
+    private void achievement(String money){
+        StringTokenizer splitmoney = new StringTokenizer(money, ".");
+        money = splitmoney.nextToken();
+        int achievement_money = Integer.parseInt(money);
+
+        final GifImageView achievement1 = (GifImageView)findViewById(R.id.achievement_gif1);
+        final GifImageView achievement2 = (GifImageView)findViewById(R.id.achievement_gif2);
+        final GifImageView achievement_super_prize = (GifImageView)findViewById(R.id.achievement_super_prize);
+
+        SharedPreferences finished_achievement = getSharedPreferences("fin_achieve", 0);
+        SharedPreferences.Editor fin_edit = finished_achievement.edit();
+        final int fin = finished_achievement.getInt("key_fin", 0);
+        int a = 0;
+        int check_state = fin;
+
+        achievement1.setVisibility(View.VISIBLE);
+        achievement2.setVisibility(View.VISIBLE);
+        achievement_super_prize.setVisibility(View.VISIBLE);
+
+        if(achievement_money >= 100 && achievement_money < 500){
+            a = 1;
+        } else if(achievement_money >= 500 && achievement_money < 1000){
+            a = 2;
+        } else if(achievement_money >= 1000 && achievement_money < 2000){
+            a = 3;
+        } else{
+            a = 0;
+        }
+
+        if(a == 1 && check_state != a){
+            achievement1.setImageResource(R.drawable.firework_achievement_100);
+            achievement2.setImageResource(R.drawable.firework_achievement_100);
+        } else if(a == 2 && check_state != a){
+            achievement1.setImageResource(R.drawable.pig_dancing_achievement_2);
+            achievement2.setImageResource(R.drawable.pig_dancing_achievement_2);
+        } else if(a == 3 && check_state != a){
+            achievement_super_prize.setBackgroundResource(R.drawable.firework_achievement_super_prize);
+        }
+
+        fin_edit.putInt("key_fin", a).commit();
+        Toast.makeText(getApplicationContext(), String.valueOf(a) + "|" + String.valueOf(fin) + "|" + String.valueOf(achievement_money)
+                , Toast.LENGTH_SHORT).show();
+        new CountDownTimer(5000, 1000) { // 5000 = 5 sec
+
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+                achievement1.setVisibility(View.INVISIBLE);
+                achievement2.setVisibility(View.INVISIBLE);
+                achievement_super_prize.setVisibility(View.INVISIBLE);
+            }
+        }.start();
+
     }
 }
