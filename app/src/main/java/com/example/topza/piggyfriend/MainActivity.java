@@ -2,11 +2,13 @@ package com.example.topza.piggyfriend;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -154,6 +156,15 @@ public class MainActivity extends AppCompatActivity {
         } else if(coin == 10){
             ImageView coin10 = (ImageView) findViewById(R.id.coin10);
             coinAnimation(coin10);
+        } else if(coin == 20){
+            ImageView coin20 = (ImageView) findViewById(R.id.coin1);
+            coinAnimation(coin20);
+        } else if(coin == 50){
+            ImageView coin50 = (ImageView) findViewById(R.id.coin5);
+            coinAnimation(coin50);
+        } else if(coin == 100){
+            ImageView coin100 = (ImageView) findViewById(R.id.coin1);
+            coinAnimation(coin100);
         }
         animator.setDuration(1000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -223,10 +234,6 @@ public class MainActivity extends AppCompatActivity {
         int a = 0;
         int check_state = fin;
 
-        achievement1.setVisibility(View.VISIBLE);
-        achievement2.setVisibility(View.VISIBLE);
-        achievement_super_prize.setVisibility(View.VISIBLE);
-
         if(achievement_money >= 100 && achievement_money < 500){
             a = 1;
         } else if(achievement_money >= 500 && achievement_money < 1000){
@@ -238,19 +245,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(a == 1 && check_state != a){
+            achievement1.setVisibility(View.VISIBLE);
+            achievement2.setVisibility(View.VISIBLE);
             achievement1.setImageResource(R.drawable.firework_achievement_100);
             achievement2.setImageResource(R.drawable.firework_achievement_100);
+            achievementDialog(this, "Achievement Unlock", "your money reached 100 Baht", "OK");
         } else if(a == 2 && check_state != a){
+            achievement1.setVisibility(View.VISIBLE);
+            achievement2.setVisibility(View.VISIBLE);
             achievement1.setImageResource(R.drawable.pig_dancing_achievement_2);
             achievement2.setImageResource(R.drawable.pig_dancing_achievement_2);
+            achievementDialog(this, "Achievement Unlock", "your money reached 500 Baht", "OK");
         } else if(a == 3 && check_state != a){
+            achievement_super_prize.setVisibility(View.VISIBLE);
             achievement_super_prize.setBackgroundResource(R.drawable.firework_achievement_super_prize);
+            achievementDialog(this, "Achievement Unlock", "your money reached 1000 Baht", "OK");
         }
 
         fin_edit.putInt("key_fin", a).commit();
         Toast.makeText(getApplicationContext(), String.valueOf(a) + "|" + String.valueOf(fin) + "|" + String.valueOf(achievement_money)
                 , Toast.LENGTH_SHORT).show();
-        new CountDownTimer(5000, 1000) { // 5000 = 5 sec
+        new CountDownTimer(4000, 1000) { // 5000 = 5 sec
 
             public void onTick(long millisUntilFinished) {
             }
@@ -260,6 +275,16 @@ public class MainActivity extends AppCompatActivity {
                 achievement_super_prize.setVisibility(View.INVISIBLE);
             }
         }.start();
+    }
 
+    private AlertDialog achievementDialog(final AppCompatActivity act, CharSequence title,
+                                     CharSequence message, CharSequence buttonYes){
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
+        downloadDialog.setTitle(title).setMessage(message).setPositiveButton(buttonYes, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        return downloadDialog.show();
     }
 }
