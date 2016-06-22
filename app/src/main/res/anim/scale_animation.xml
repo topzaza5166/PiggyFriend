@@ -7,7 +7,7 @@ android:interpolator="@android:anim/linear_interpolator">
           android:duration="2000" android:fillBefore="false" />
 
    <translate android:fromYDelta="0"
-       android:toYDelta = "500"
+       android:toYDelta = "100"
        android:duration="2000" />
 
 </set>
