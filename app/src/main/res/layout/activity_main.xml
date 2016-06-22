@@ -7,6 +7,25 @@
     android:orientation="horizontal"
     tools:context="com.example.topza.piggyfriend.MainActivity">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="50dp"
+        android:id = "@+id/achievement_gif1"/>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="400dp"
+        android:layout_marginTop="50dp"
+        android:id = "@+id/achievement_gif2" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id = "@+id/achievement_super_prize" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,5 +117,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"/>
+
 
 </RelativeLayout>
