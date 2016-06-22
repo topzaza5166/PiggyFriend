@@ -249,23 +249,26 @@ public class MainActivity extends AppCompatActivity {
             achievement2.setVisibility(View.VISIBLE);
             achievement1.setImageResource(R.drawable.firework_achievement_100);
             achievement2.setImageResource(R.drawable.firework_achievement_100);
-            achievementDialog(this, "Achievement Unlock", "your money reached 100 Baht", "OK");
+            Toast.makeText(getApplicationContext(), "Achievement Unlock", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "your money reached 100 Baht", Toast.LENGTH_SHORT).show();
         } else if(a == 2 && check_state != a){
             achievement1.setVisibility(View.VISIBLE);
             achievement2.setVisibility(View.VISIBLE);
             achievement1.setImageResource(R.drawable.pig_dancing_achievement_2);
             achievement2.setImageResource(R.drawable.pig_dancing_achievement_2);
-            achievementDialog(this, "Achievement Unlock", "your money reached 500 Baht", "OK");
+            Toast.makeText(getApplicationContext(), "Achievement Unlock", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "your money reached 500 Baht", Toast.LENGTH_SHORT).show();
         } else if(a == 3 && check_state != a){
             achievement_super_prize.setVisibility(View.VISIBLE);
             achievement_super_prize.setBackgroundResource(R.drawable.firework_achievement_super_prize);
-            achievementDialog(this, "Achievement Unlock", "your money reached 1000 Baht", "OK");
+            Toast.makeText(getApplicationContext(), "Achievement Unlock", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "your money reached 1000 Baht", Toast.LENGTH_SHORT).show();
         }
 
         fin_edit.putInt("key_fin", a).commit();
-        Toast.makeText(getApplicationContext(), String.valueOf(a) + "|" + String.valueOf(fin) + "|" + String.valueOf(achievement_money)
-                , Toast.LENGTH_SHORT).show();
-        new CountDownTimer(4000, 1000) { // 5000 = 5 sec
+//        Toast.makeText(getApplicationContext(), String.valueOf(a) + "|" + String.valueOf(fin) + "|" + String.valueOf(achievement_money)
+//                , Toast.LENGTH_SHORT).show();
+        new CountDownTimer(5000, 1000) { // 5000 = 5 sec
 
             public void onTick(long millisUntilFinished) {
             }
