@@ -10,15 +10,15 @@
     <pl.droidsonroids.gif.GifImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="20dp"
         android:id = "@+id/achievement_gif1"/>
 
     <pl.droidsonroids.gif.GifImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="400dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="370dp"
+        android:layout_marginTop="20dp"
         android:id = "@+id/achievement_gif2" />
 
     <pl.droidsonroids.gif.GifImageView
@@ -55,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="20dp">
+            android:paddingTop="20dp"
+            android:id="@+id/layoutMoney">
 
             <TextView
                 android:layout_width="wrap_content"
